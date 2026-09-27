@@ -9,6 +9,13 @@ namespace CodingTracker.Models
         public int Id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public TimeOnly Duration { get; set; }
+        public TimeSpan Duration
+        {
+            get
+            {
+                if(EndTime < StartTime) return TimeSpan.Zero;
+                return EndTime - StartTime;
+            }
+        }
     }
 }
