@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static CodingTracker.Models.Enums.MenuAction;
+﻿using static CodingTracker.Models.Enums.MenuAction;
 using Spectre.Console;
 using CodingTracker.Controllers;
 
-namespace CodingTracker
+namespace CodingTracker.UI
 {
-    internal class UserInterface
+    internal class UserInterface 
     {
-        private readonly ICodingSessionsController _codingSessionController;
+        private readonly ICodingSessionsController _controller;
 
         public UserInterface(ICodingSessionsController codingSessionsController)
         {
-            _codingSessionController = codingSessionsController;
+            _controller = codingSessionsController;
         }
 
         internal void MainMenu()
@@ -38,19 +35,19 @@ namespace CodingTracker
                         break;
                     case MainMenuAction.ViewSessions:
                         AnsiConsole.Clear();
-                        _codingSessionController.ViewSessions();
+                        _controller.ViewSessions();
                         break;
                     case MainMenuAction.AddSession:
                         AnsiConsole.Clear();
-                        _codingSessionController.AddSession();
+                        _controller.AddSession();
                         break;
                     case MainMenuAction.DeleteSession:
                         AnsiConsole.Clear();
-                        _codingSessionController.DeleteSession();
+                        _controller.DeleteSession();
                         break;
                     case MainMenuAction.UpdateSession:
                         AnsiConsole.Clear();
-                        _codingSessionController.UpdateSession();
+                        _controller.UpdateSession();
                         break;
                 }
             }

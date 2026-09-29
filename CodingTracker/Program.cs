@@ -1,4 +1,6 @@
 ﻿using CodingTracker.Controllers;
+using CodingTracker.Repository;
+using CodingTracker.UI;
 using Microsoft.Extensions.Configuration;
 using System.Globalization;
 
@@ -18,9 +20,12 @@ internal class Program
         DbContext context = new(connectionString);
         context.InitialTable();
 
-        CodingSessionsController controller = new(context);
+        CodingSessionsRepository repository = new(context);
 
-        UserInterface main = new UserInterface(controller);
-        main.MainMenu();
+        var controller = new CodingSessionsController(repository);
+
+        var userInterface = new UserInterface(controller);
+
+        userInterface.MainMenu();
     }
 }

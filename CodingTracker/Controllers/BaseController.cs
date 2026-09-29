@@ -8,19 +8,19 @@ namespace CodingTracker.Controllers
 {
     internal abstract class BaseController
     {
-        protected void DisplayMessage(string message, string color = "yellow")
+        protected internal void DisplayMessage(string message, string color = "yellow")
         {
             AnsiConsole.MarkupLine($"[{color}]{message}[/]");
             Console.WriteLine();
         }
-        
-        protected void DisplayError(string message, string color = "red")
+
+        protected internal void DisplayError(string message, string color = "red")
         {
             AnsiConsole.MarkupLine($"[{color}]Error: {message}[/]");
             Console.WriteLine();
         }
 
-        protected void DisplayTable(List<CodingSession> sessions, string title)
+        protected internal void DisplayTable(List<CodingSession> sessions, string title)
         {
             Table table = new Table()
                 .Border(TableBorder.Rounded)
@@ -42,7 +42,7 @@ namespace CodingTracker.Controllers
 
             AnsiConsole.Write(table);
         }
-        protected DateTime GetDateTimeInput(string text, DateTime? defaultValue = null)
+        protected internal DateTime GetDateTimeInput(string text, DateTime? defaultValue = null)
         {
             string fullText = defaultValue.HasValue
                     ? $"{text} (Current: {defaultValue.Value.ToString("yyyy-MM-dd HH:mm")}, Press Enter to keep) " : text;
@@ -74,7 +74,7 @@ namespace CodingTracker.Controllers
             return DateTime.Parse(userInput);
         }
 
-        protected (DateTime startTime, DateTime endTime) DateTimeInput()
+        protected internal (DateTime startTime, DateTime endTime) DateTimeInput()
         {
             while (true)
             {
@@ -91,7 +91,7 @@ namespace CodingTracker.Controllers
             }
         }
 
-        protected (DateTime startTime, DateTime endTime) DateTimeUpdateInput(CodingSession session)
+        protected internal CodingSession DateTimeUpdateInput(CodingSession session)
         {
             while (true)
             {
@@ -101,7 +101,12 @@ namespace CodingTracker.Controllers
                 if (newEndTime >= newStartTime)
                 {
                     DisplayMessage("The input was saved.");
-                    return (newStartTime, newEndTime);
+                    return new CodingSession
+                    {
+                        Id = session.Id,
+                        StartTime = newStartTime,
+                        EndTime = newEndTime
+                    };
                 }
 
                 DisplayError("End time cannot be earlier than start time. Please re-enter.");
@@ -109,7 +114,7 @@ namespace CodingTracker.Controllers
             
         }
 
-        protected int InputId()
+        protected internal int InputId()
         {
             int inputNum = AnsiConsole.Ask<int>("Enter the ID to proceed: ");
             return inputNum;
